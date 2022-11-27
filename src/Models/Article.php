@@ -5,11 +5,11 @@ namespace jcobhams\NewsApi\Models;
 class Article
 {
     private string $title;
-    private ?string $url = null;
-    private string $description;
-    private ?string $picture = null;
+    private ?string $url;
+    private ?string $description;
+    private ?string $picture;
 
-    public function __construct(string $title, ?string $url, string $description, ?string $picture)
+    public function __construct(string $title, ?string $url, ?string $description, ?string $picture)
     {
         $this->title = $title;
         $this->url = $url;

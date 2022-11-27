@@ -8,6 +8,41 @@ use jcobhams\NewsApi\NewsApi;
 use jcobhams\NewsApi\Template;
 use Twig\Environment;
 
+class ArticleController
+{
+    public function index(Environment $twig): Template
+    {
+        // Search -     , MAYBE can add sorting but that will send many requests
+        if (isset($_GET['search'])) {
+            $newsApi = new NewsApi($_ENV['APIKEY']);
+
+            $q = $_GET['search'];
+            $articlesFromApi = $newsApi->getEverything($q);
+        } else if (isset($_GET['category'])) {
+            $newsApi = new NewsApi($_ENV['APIKEY']);
+
+            $category = $_GET['category'];
+            $articlesFromApi = $newsApi->getTopHeadlines(null, null, null, $category);
+        } else {
+            return new Template($twig, 'main.view.twig', []);
+        }
+
+        $articles = new ArticleCollection();
+        foreach ($articlesFromApi->articles as $article) {
+            $articles->addArticles(new Article (
+                $article->title,
+                $article->url,
+                $article->description,
+                $article->urlToImage
+            ));
+        }
+
+        return new Template($twig, 'articles.view.twig', ['articles' => $articles, 'articleCount' => $articles->count()]);
+//        return $twig->render('index.view.twig', ['articles' => $articles]);
+    }
+}
+
+// Dummy data
 //class ArticleController
 //{
 //    public function index(Environment $twig): Template
@@ -157,25 +192,3 @@ use Twig\Environment;
 ////        return $twig->render('index.view.twig', ['articles' => $articles, 'articleCount' => $articles->count()]);
 //    }
 //}
-
-class ArticleController
-{
-    public function index(Environment $twig, NewsApi $newsApi): Template
-    {
-        $q = $_GET['search'];
-        $articlesFromApi = $newsApi->getEverything($q);
-
-        $articles = new ArticleCollection();
-        foreach ($articlesFromApi->articles as $article) {
-            $articles->addArticles(new Article (
-                $article->title,
-                $article->url,
-                $article->description,
-                $article->urlToImage
-            ));
-        }
-        return new Template($twig, 'index.view.twig', ['articles' => $articles, 'articleCount' => $articles->count()]);
-
-//        return $twig->render('index.view.twig', ['articles' => $articles]);
-    }
-}
