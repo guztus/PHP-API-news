@@ -1,11 +1,12 @@
 <?php
 
-use jcobhams\NewsApi\Router;
-use jcobhams\NewsApi\TwigLoader;
+use App\Router;
+use App\TwigLoader;
 
 require_once 'vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+//echo "<pre>";
+//var_dump(new \App\Models\Article('title', null, null, null, null, null));
+//die;
+(Dotenv\Dotenv::createImmutable(__DIR__))->load();
 
 Router::route(new TwigLoader());

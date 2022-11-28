@@ -1,6 +1,6 @@
 <?php
 
-namespace jcobhams\NewsApi;
+namespace App;
 
 use Twig\Environment;
 

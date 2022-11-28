@@ -1,11 +1,12 @@
 <?php
 
-namespace jcobhams\NewsApi\Controllers;
+namespace App\Controllers;
 
-use jcobhams\NewsApi\ArticleCollection;
-use jcobhams\NewsApi\Models\Article;
+use App\Models\Collections\ArticleCollection;
+use App\Models\Article;
+use App\Services\IndexArticleService;
+use App\Template;
 use jcobhams\NewsApi\NewsApi;
-use jcobhams\NewsApi\Template;
 use Twig\Environment;
 
 class ArticleController
@@ -14,31 +15,14 @@ class ArticleController
     {
         // Search -     , MAYBE can add sorting but that will send many requests
         if (isset($_GET['search'])) {
-            $newsApi = new NewsApi($_ENV['APIKEY']);
-
-            $q = $_GET['search'];
-            $articlesFromApi = $newsApi->getEverything($q);
+            $articles = IndexArticleService::execute($_GET['search'], 'search');
         } else if (isset($_GET['category'])) {
-            $newsApi = new NewsApi($_ENV['APIKEY']);
-
-            $category = $_GET['category'];
-            $articlesFromApi = $newsApi->getTopHeadlines(null, null, null, $category);
+            $articles = IndexArticleService::execute($_GET['category'], 'category');
         } else {
-            return new Template($twig, 'main.view.twig', []);
+            return new Template($twig, 'main/main.view.twig', []);
         }
 
-        $articles = new ArticleCollection();
-        foreach ($articlesFromApi->articles as $article) {
-            $articles->addArticles(new Article (
-                $article->title,
-                $article->url,
-                $article->description,
-                $article->urlToImage
-            ));
-        }
-
-        return new Template($twig, 'articles.view.twig', ['articles' => $articles, 'articleCount' => $articles->count()]);
-//        return $twig->render('index.view.twig', ['articles' => $articles]);
+        return new Template($twig, 'articles/articles.view.twig', ['GET' => $_GET, 'articles' => $articles, 'articleCount' => $articles->count()]);
     }
 }
 

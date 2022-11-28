@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+{% include 'navBar/navBar.view.twig' %}
+
+{% if articles is empty %}
+    <a>Nothing was found!</a>
+{% else %}
+    {% set displayedArticleCount = -1 %}
+    <h2 style="text-align: center; margin-top: 35px">Showing results for
+        {% if (GET.category) %}
+            <a style="text-decoration: underline chocolate; text-decoration-thickness: 2px">{{ GET.category }}</a>
+        {% else %}
+            <a style="text-decoration: underline chocolate; text-decoration-thickness: 2px">{{ GET.search }}</a>
+        {% endif %}
+    </h2>
+    <h5 style="text-align: center; font-size: 1em; margin-top: 10px">{{ articles.count }} results fetched</h5>
+
+{#    <a style="display: flex; justify-content: right; padding-right: 5px; font-size: 10px">(*Showing a maximum#}
+{#        of {{ displayedArticleCount }} articles)</a>#}
+    <div class="container-fluid" style="text-align: center; width: 95%">
+        <div class="row justify-content-md-center">
+            {% for article in articles.articles|slice(0, displayedArticleCount) %}
+                <div class="card m-3 p-1 shadow p-1 mb-5 bg-body rounded" style="width: 18rem">
+                    <a href="{{ article.url }}" style="text-decoration: none" target="_blank">
+                        <img src="{{ article.picture }}" class="card-img-top" style="max-height: 250px" alt="image">
+                        <div class="card-body" style="display: flex; flex-direction: column">
+                            <h5 class="card-title" style="color: chocolate">{{ article.title }}</h5>
+                            <p style="font-size: 0.7em; text-align: center; color: chocolate; margin-bottom: 0; margin-top: auto">
+                                {% if article.publishedAt %}
+                                {{ article.publishedAt|date("d/m/Y") }} </p>
+                            {% else %}
+                                <i>Unknown publish date</i>
+                            {% endif %}
+                            <p class="card-text"
+                               style="font-size: 0.7em; color: black; flex-grow: 1">{{ article.description }}</p>
+
+                            <div style="align-self: flex-end">
+
+                                <p style="font-size: 0.7em; text-align: right; color: chocolate; margin-bottom: 5px; margin-top: auto">
+                                    {% if article.source %}
+                                    {{ article.source }} </p>
+                                {% else %}
+                                    <i>Unknown source</i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+</body>
+</html>

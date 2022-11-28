@@ -1,16 +1,16 @@
 <?php
 
-namespace jcobhams\NewsApi\Controllers;
+namespace App\Controllers;
 
-use jcobhams\NewsApi\Template;
+use App\Template;
 use Twig\Environment;
 
-class MainController
+class AboutController
 {
     public function index(Environment $twig): Template
     {
         if (!$_GET) {
-            return new Template($twig, 'main.view.twig');
+            return new Template($twig, 'about/about.view.twig');
         } else {
             return (new ArticleController)->index($twig);
         }

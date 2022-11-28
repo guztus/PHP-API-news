@@ -1,9 +1,9 @@
 <?php
 
-namespace jcobhams\NewsApi;
+namespace App\Models\Collections;
 
 use Countable;
-use jcobhams\NewsApi\Models\Article;
+use App\Models\Article;
 
 class ArticleCollection implements Countable
 {
