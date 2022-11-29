@@ -2,23 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Models\Collections\ArticleCollection;
-use App\Models\Article;
 use App\Services\IndexArticleService;
 use App\Template;
-use jcobhams\NewsApi\NewsApi;
 use Twig\Environment;
 
 class ArticleController
 {
     public function index(Environment $twig): Template
     {
-        // Search -     , MAYBE can add sorting but that will send many requests
         $articleFetch = new IndexArticleService();
         if (isset($_GET['search'])) {
-            $articles = $articleFetch->execute($_GET['search'], 'search');
+            $articles = $articleFetch->searchEverything($_GET['search'], $_GET['sortBy']);
         } else if (isset($_GET['category'])) {
-            $articles = $articleFetch->execute($_GET['category'], 'category');
+            $articles = $articleFetch->searchByCategory($_GET['category']);
         } else {
             return new Template($twig, 'main/main.view.twig', []);
         }
