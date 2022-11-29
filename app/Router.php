@@ -2,9 +2,7 @@
 
 namespace App;
 use App\Controllers\ErrorController;
-use App\Controllers\MainController;
 use FastRoute;
-use Twig\Error\Error;
 
 class Router
 {
