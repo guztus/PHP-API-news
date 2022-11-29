@@ -8,14 +8,18 @@ use jcobhams\NewsApi\NewsApi;
 
 class IndexArticleService
 {
-    public static function execute(string $searchQuery, string $type): ArticleCollection
+    private NewsApi $apiKey;
+    public function __construct()
     {
-        $newsApi = new NewsApi($_ENV['APIKEY']);
+        $this->apiKey = new NewsApi($_ENV['APIKEY']);
+    }
 
+    public function execute(string $searchQuery, string $type): ArticleCollection
+    {
         if ($type == 'search') {
-            $articlesFromApi = $newsApi->getEverything($searchQuery, null, null, null, null, null, 'en', 'publishedAt');
+            $articlesFromApi = $this->apiKey->getEverything($searchQuery, null, null, null, null, null, 'en', 'publishedAt');
         } else if ($type == 'category') {
-            $articlesFromApi = $newsApi->getTopHeadlines(null, null, null, $searchQuery);
+            $articlesFromApi = $this->apiKey->getTopHeadlines(null, null, null, $searchQuery);
         }
 
         $articles = new ArticleCollection();

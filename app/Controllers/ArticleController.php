@@ -14,10 +14,11 @@ class ArticleController
     public function index(Environment $twig): Template
     {
         // Search -     , MAYBE can add sorting but that will send many requests
+        $articleFetch = new IndexArticleService();
         if (isset($_GET['search'])) {
-            $articles = IndexArticleService::execute($_GET['search'], 'search');
+            $articles = $articleFetch->execute($_GET['search'], 'search');
         } else if (isset($_GET['category'])) {
-            $articles = IndexArticleService::execute($_GET['category'], 'category');
+            $articles = $articleFetch->execute($_GET['category'], 'category');
         } else {
             return new Template($twig, 'main/main.view.twig', []);
         }
