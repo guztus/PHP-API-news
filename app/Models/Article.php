@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Article
 {
-    private string $title;
+    private ?string $title;
     private ?string $url;
     private ?string $description;
     private ?string $picture;
@@ -12,7 +12,7 @@ class Article
     private ?string $source;
 
     public function __construct(
-        string  $title,
+        ?string  $title,
         ?string $url,
         ?string $description,
         ?string $picture,
@@ -45,7 +45,7 @@ class Article
     public function getPicture(): string
     {
         if ($this->picture == null) {
-            return 'images/default-image.jpg';
+            return 'public/images/default-image.jpg';
         }
         return $this->picture;
     }

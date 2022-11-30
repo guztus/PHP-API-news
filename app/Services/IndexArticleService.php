@@ -26,7 +26,7 @@ class IndexArticleService
 
     public function searchByCategory(string $searchQuery): ArticleCollection
     {
-        $articlesFromApi = $this->apiKey->getTopHeadlines(null, null, null, $searchQuery);
+        $articlesFromApi = $this->apiKey->getTopHeadlines(null, null, null, $searchQuery, 100);
         return $this->createList($articlesFromApi);
     }
 
