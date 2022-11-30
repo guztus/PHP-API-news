@@ -32,13 +32,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
-            </ul>
 
-            <form class="d-flex my-1" action="/articles">
-                <input class="form-control me-2" type="text" placeholder="Search a keyword" id="search" name="search"
-                       aria-label="Search" required>
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+                {% if not session %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log out</a>
+                    </li>
+                {% endif %}
+
+                <form class="d-flex my-1" action="/articles">
+                    <input class="form-control me-2" type="text" placeholder="Search a keyword" id="search"
+                           name="search"
+                           aria-label="Search" required>
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </ul>
 
         </div>
     </div>
