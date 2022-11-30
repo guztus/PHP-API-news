@@ -13,10 +13,8 @@ class TwigLoader
     {
         // Twig
         $loader = new FilesystemLoader('views');
-        $this->twig = new Environment($loader, [
-            'cache' => 'cache',
-            'auto_reload' => true, // Make true only when coding
-        ]);
+        $this->twig = new Environment($loader);
+        $this->twig->addGlobal('session', $_SESSION);
     }
 
     public function getTwig(): Environment
