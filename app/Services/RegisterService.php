@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 
 class RegisterService
 {
-    private \Doctrine\DBAL\Connection $conn;
+    private Connection $conn;
 
     public function __construct()
     {
