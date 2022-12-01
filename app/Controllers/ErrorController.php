@@ -9,7 +9,7 @@ class ErrorController
 {
     public function index(
         Environment $twig,
-        string      $errorCode,
+        int      $errorCode,
         string      $errorMessage,
         string      $buttonName = 'Get me to the man page',
         string      $buttonLink = '/'
