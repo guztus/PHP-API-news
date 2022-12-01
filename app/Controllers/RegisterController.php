@@ -16,6 +16,10 @@ class RegisterController
 
     public function store(Environment $twig) // store and redirect
     {
+        if ($_POST['password'] != $_POST['password_repeated']) {
+           return (new ErrorController())->index($twig, 00, "The passwords you entered didn't match", 'Back To Registration Form', '/register');
+        }
+
         try {
             (new RegisterService())->execute(new RegisterServiceRequest(
                 $_POST['name'],
