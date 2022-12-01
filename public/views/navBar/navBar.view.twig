@@ -1,56 +1,70 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" style="text-decoration: underline chocolate" href="/">National News</a>
+<div class="container-fluid d-flex p-2 bg-light" style="font-size: 1.1em; align-items: center; flex-wrap: wrap">
+    <ul class="d-flex" style="list-style-type: none; align-items: center; margin-bottom: 0; padding-left: 1em; padding-right: 1em">
+        <li>
+            <a class="navbar-brand" style="text-decoration: underline chocolate; color: black"
+               href="/">
+                National News
+            </a>
+        </li>
+    </ul>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="d-flex"
+        style="flex-grow: 1; list-style-type: none; align-items: center; justify-content: center; margin-bottom: 0; padding-left: 5px">
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=business">Business</a>
+        </li>
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=entertainment">Entertainment</a>
+        </li>
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=general">General</a>
+        </li>
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=health">Health</a>
+        </li>
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=science">Science</a>
+        </li>
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=sports">Sports</a>
+        </li>
+        <li>
+            <a class="nav-link active" style="color: chocolate" href="/articles?category=technology">Technology</a>
+        </li>
+    </ul>
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=business">Business</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=entertainment">Entertainment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=general">General</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=health">Health</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=science">Science</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=sports">Sports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/articles?category=technology">Technology</a>
-                </li>
-            </ul>
+    <ul class="d-flex" style=" list-style-type: none; align-items: center; margin-bottom: 0; padding-left: 5px">
+        <li>
+            <form class="d-flex my-1" action="/articles">
+                <input class="form-control me-2" type="text" placeholder="Search a keyword" id="search"
+                       name="search"
+                       aria-label="Search" required
+                       style="flex-grow: 1">
+                <button class="btn"
+                        style="background-color: chocolate; color: white"
+                        type="submit">Search
+                </button>
+            </form>
+        </li>
+    </ul>
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
+    <ul class="d-flex" style="list-style-type: none; align-items: center; margin-bottom: 0; padding-left: 5px">
+        <li>
+            <a class="nav-link" style="color: chocolate" href="/about">About</a>
+        </li>
 
-                {% if not session %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log out</a>
-                    </li>
-                {% endif %}
+        {% if not session %}
+            <li>
+                <a class="nav-link" style="color: black" href="/login">Login</a>
+            </li>
+        {% else %}
+            <li>
+                <a class="nav-link" style="color: black" href="/profile">Profile</a>
+            </li>
+            <li>
+                <a class="nav-link" style="color: black" href="/logout">Log out</a>
+            </li>
+        {% endif %}
+    </ul>
 
-                <form class="d-flex my-1" action="/articles">
-                    <input class="form-control me-2" type="text" placeholder="Search a keyword" id="search"
-                           name="search"
-                           aria-label="Search" required>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </ul>
-
-        </div>
-    </div>
-</nav>
+</div>
