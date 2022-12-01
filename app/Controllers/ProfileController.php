@@ -3,10 +3,11 @@
 namespace App\Controllers;
 
 use App\Template;
+use Twig\Environment;
 
 class ProfileController
 {
-    public function index($twig)
+    public function index(Environment $twig)
     {
         if (!$_SESSION) {
             header('Location: /login');
