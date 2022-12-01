@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -14,9 +14,8 @@ class RegisterController
         return new Template($twig, 'register/register.view.twig');
     }
 
-    public function store(Environment $twig)
+    public function store(Environment $twig) // store and redirect
     {
-        // store and redirect
         try {
             (new RegisterService())->execute(new RegisterServiceRequest(
                 $_POST['name'],

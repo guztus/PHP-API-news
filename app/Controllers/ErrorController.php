@@ -13,7 +13,7 @@ class ErrorController
         string      $errorMessage,
         string      $buttonName = 'Get me to the man page',
         string      $buttonLink = '/'
-    )
+    ): Template
     {
         return new Template($twig, "errors/error.view.twig", [
                 'errorCode' => $errorCode,

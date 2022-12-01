@@ -45,7 +45,7 @@ class Article
     public function getPicture(): string
     {
         if ($this->picture == null) {
-            return 'public/images/default-image.jpg';
+            return 'images/default-image.jpg';
         }
         return $this->picture;
     }

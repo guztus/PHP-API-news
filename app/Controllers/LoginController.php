@@ -13,16 +13,19 @@ class LoginController
         return new Template($twig, "login/login.view.twig");
     }
 
-    public function validate()
+    public function validate(): void
     {
         $userInfo = (new RegisterService())->checkIfExists($_POST['email']);
+
         if (!$userInfo) {
             header('Location: /login');
         }
 
         if (password_verify($_POST['password'], $userInfo->getPassword())) {
             $_SESSION['name'] = $userInfo->getName();
+            header('Location: /');
+        } else {
+            header('Location: /login');
         }
-        header('Location: /');
     }
 }
