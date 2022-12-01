@@ -21,7 +21,7 @@ class RegisterController
             (new RegisterService())->execute(new RegisterServiceRequest(
                 $_POST['name'],
                 $_POST['email'],
-                $_POST['password']
+                password_hash($_POST['password'], PASSWORD_DEFAULT)
             ));
         } catch (\Exception $e) {
             if ($e->getCode() == 1062) {
@@ -39,7 +39,6 @@ class RegisterController
                 );
             }
         }
-
         header('Location: /login');
     }
 }

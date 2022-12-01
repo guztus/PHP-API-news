@@ -15,22 +15,14 @@ class LoginController
 
     public function validate()
     {
-//        echo "<pre>";
-//        var_dump($_POST);
-
         $userInfo = (new RegisterService())->checkIfExists($_POST['email']);
-//        var_dump($userInfo);
         if (!$userInfo) {
             header('Location: /login');
         }
 
-        if ($userInfo->getPassword() == $_POST['password']) {
+        if (password_verify($_POST['password'], $userInfo->getPassword())) {
             $_SESSION['name'] = $userInfo->getName();
         }
         header('Location: /');
-//        var_dump($_SESSION);
-//        var_dump('tst');die;
-//        if ($_POST['email'])
-//        $_SESSION['userName'] = ;
     }
 }
