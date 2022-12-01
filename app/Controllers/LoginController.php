@@ -16,13 +16,13 @@ class LoginController
     public function validate(): void
     {
         $userInfo = (new RegisterService())->checkIfExists($_POST['email']);
-
         if (!$userInfo) {
             header('Location: /login');
         }
 
         if (password_verify($_POST['password'], $userInfo->getPassword())) {
             $_SESSION['name'] = $userInfo->getName();
+            $_SESSION['email'] = $userInfo->getEmail();
             header('Location: /');
         } else {
             header('Location: /login');
