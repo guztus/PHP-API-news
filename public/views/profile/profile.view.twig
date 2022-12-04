@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script>
-        function showHint(str) {
+        function showHint(str, type) {
             if (str.length == 0) {
                 document.getElementById("txtHint").innerHTML = "";
                 return;
@@ -22,21 +22,40 @@
                 // console.log(this.responseText);
                 // console.log(str);
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("foo=" + str);
+                xmlhttp.send(type + "=" + str);
             }
         }
     </script>
+    {#
+    function changeUserData(newValue, type) {
+        if (type === 'name') {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.onload = function () {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+            xmlhttp.open("POST", 'views/profile/gethint.php', true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send(type + newValue);
+        }
+    }
+    </script>
 
+    </head>
+    <body>
+
+
+    <form>
+    First name: <input type="text" id="inputField" onsubmit="changeUserData(this.value, 'name')">
+    </form> #}
 </head>
 <body>
 
 <p>Start typing a name in the input field below:</p>
 <p>Suggestions: <span id="txtHint"></span></p>
 
-<form>
-    First name: <input type="text" id="inputField" onkeyup="showHint(this.value)">
+<form method="POST">
+    First name: <input type="text" name="name" id="inputField">
 </form>
-
 
 <section class="vh-100" style="background-color: #eee;">
     <div class="container h-100">
@@ -49,70 +68,85 @@
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">My Profile</p>
 
-                                <form class="mx-1 mx-md-4" method="post">
-                                    <div class="d-flex flex-column">
-
-                                        <div class="d-flex m-2" style="justify-content: center">
-                                            <a style="font-size: 1.2em; font-weight: bold">Name: {{ name }}</a>
-                                        </div>
-
+                                <div class="d-flex flex-column">
+                                    <div class="d-flex m-2" style="justify-content: center">
+                                        <a style="font-size: 1.2em; font-weight: bold">Name: {{ user.name }}</a>
+                                    </div>
+                                    {% if user.email != 'guest' %}
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
-                                                <input type="text" id="form3Example2c" class="form-control" name="name"
-                                                       required/>
-                                                <button class="btn"
-                                                        disabled>save
-                                                </button>
-                                                <div class="d-flex" style="justify-content: center">
-                                                    <label class="form-label" for="form3Example2c">Change Name</label>
-                                                </div>
+
+                                                <form method="POST">
+                                                    <div class="d-flex">
+                                                        <input type="text" id="name" class="form-control"
+                                                               name="name"
+                                                               required/>
+                                                        <button class="btn"
+                                                                >save
+                                                        </button>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <label class="form-label" for="name">Change
+                                                            Name</label>
+                                                    </div>
+                                                </form>
+
                                             </div>
                                         </div>
 
                                         <div class="d-flex m-2" style="justify-content: center">
-                                            <a style="font-size: 1.2em; font-weight: bold">E-mail: {{ email }}</a>
+                                            <a style="font-size: 1.2em; font-weight: bold">Email: {{ user.email }}</a>
                                         </div>
-
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
-                                                <input type="email" id="form3Example3c" class="form-control"
-                                                       name="email"
-                                                       required/>
-                                                <div class="d-flex" style="justify-content: center">
-                                                    <label class="form-label" for="form3Example3c">Change Email</label>
-                                                </div>
+
+                                                <form method="POST">
+                                                    <div class="d-flex">
+                                                        <input type="email" id="email" class="form-control"
+                                                               name="email"
+                                                               required/>
+                                                        <button class="btn"
+                                                                >save
+                                                        </button>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <label class="form-label" for="email">Change
+                                                            Email</label>
+                                                    </div>
+                                                </form>
+
                                             </div>
                                         </div>
 
                                         <div class="d-flex m-2" style="justify-content: center">
                                             <a style="font-size: 1.2em; font-weight: bold">Change password</a>
                                         </div>
-
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
-                                                <input type="email" id="form3Example4c" class="form-control"
-                                                       name="email"
-                                                       required/>
-                                                <div class="d-flex" style="justify-content: center">
-                                                    <label class="form-label" for="form3Example4c">Change Email</label>
-                                                </div>
+
+                                                <form method="POST">
+                                                    <div class="d-flex">
+                                                        <input type="password" id="password" class="form-control"
+                                                               name="password"
+                                                               required/>
+                                                        <button class="btn"
+                                                                >save
+                                                        </button>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <label class="form-label" for="password">Change
+                                                            Password</label>
+                                                    </div>
+                                                </form>
+
                                             </div>
                                         </div>
+                                    {% endif %}
+                                </div>
 
-                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                            <button type="submit" class="btn btn-primary btn-lg"
-                                                    style="background: chocolate; border-color: chocolate; color: white">
-                                                Log
-                                                in
-                                            </button>
-                                        </div>
-
-                                    </div>
-
-                                </form>
 
                                 <div class="d-flex justify-content-center">
                                     <a href="/">
