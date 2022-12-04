@@ -21,8 +21,7 @@ class LoginController
         }
 
         if (password_verify($_POST['password'], $userInfo->getPassword())) {
-            $_SESSION['name'] = $userInfo->getName();
-            $_SESSION['email'] = $userInfo->getEmail();
+            $_SESSION['id'] = $userInfo->getId();
             header('Location: /');
         } else {
             header('Location: /login');

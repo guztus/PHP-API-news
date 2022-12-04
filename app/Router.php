@@ -19,6 +19,7 @@ class Router
             $route->addRoute('POST', '/register', ['App\Controllers\RegisterController', 'store']);
             $route->addRoute('GET', '/logout', ['App\Controllers\LogoutController', 'logout']);
             $route->addRoute('GET', '/profile', ['App\Controllers\ProfileController', 'index']);
+            $route->addRoute('POST', '/profile', ['App\Controllers\ProfileController', 'submitUserDataChange']);
         });
 
             // Fetch method and URI from somewhere
