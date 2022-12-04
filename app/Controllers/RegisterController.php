@@ -35,7 +35,7 @@ class RegisterController
                 return (new ErrorController())->index(
                     $twig,
                     $e->getCode(),
-                    'An account with the email you are trying to register already exists!',
+                    'A user with the email you entered already exists!',
                     'Go Back',
                     '/register'
                 );
