@@ -8,6 +8,51 @@
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script>
+        function changeColor(element, border, color) {
+            if (border === 1) {
+                document.getElementById(element).style.borderColor = color;
+                document.getElementById(element).style.color = color;
+            } else {
+                document.getElementById(element).style.color = color;
+            }
+        }
+
+        function checkPassword() {
+            let decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
+            if (document.forms["signup"]["password"].value.match(decimal)) {
+                changeColor('password', 1, 'green');
+                changeColor('password_requirements', 0, 'gray');
+                return true;
+            } else {
+                changeColor('password', 1, 'red');
+                changeColor('password_requirements', 0, 'red');
+                return false;
+            }
+        }
+
+        function validateForm() {
+            let password = document.forms["signup"]["password"].value;
+            let repeatedPassword = document.forms["signup"]["confirm_password"].value;
+
+            if (password === repeatedPassword) {
+                changeColor('confirm_password', 1, 'green');
+                return true;
+            } else {
+                changeColor('confirm_password', 1, 'red');
+                return false;
+            }
+        }
+
+        function validatePassword() {
+            if (checkPassword() === true && validateForm() === true) {
+                document.getElementById('register_button').disabled = false;
+            } else {
+                document.getElementById('register_button').disabled = true;
+            }
+        }
+
+    </script>
 </head>
 <body>
 
@@ -22,7 +67,7 @@
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                                <form class="mx-1 mx-md-4" method="post"> {# action="/register" #}
+                                <form class="mx-1 mx-md-4" method="post" id="signup">
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -45,24 +90,34 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="password" id="form3Example4c" class="form-control"
-                                                   name="password" required/>
-                                            <label class="form-label" for="form3Example4c">Password</label>
+                                            <input type="password" id="password" class="form-control"
+                                                   name="password"
+                                                   required
+                                                   onkeyup="validatePassword()"/>
+                                            <label class="form-label" for="password">Password</label><br>
+                                            <a id="password_requirements" style="color: gray; font-size: 0.8em">Use 8 or
+                                                more characters (mix of letters, numbers & symbols)</a>
                                         </div>
                                     </div>
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="password" id="form3Example4cd" class="form-control"
-                                                   name="password_repeated" required/>
-                                            <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                                            <input type="password" id="confirm_password" class="form-control"
+                                                   name="password_repeated"
+                                                   required
+                                                   onkeyup="validatePassword()"/>
+                                            <label class="form-label" for="confirm_password"
+                                                   id="confirm_password_message">Repeat your
+                                                password</label>
                                         </div>
                                     </div>
 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                         <button type="submit" class="btn btn-lg"
-                                                style="background: chocolate; border-color: chocolate; color: white">
+                                                style="background: chocolate; border-color: chocolate; color: white"
+                                                disabled
+                                                id="register_button">
                                             Register
                                         </button>
                                     </div>
@@ -82,10 +137,10 @@
                                 </div>
 
                             </div>
-                            {#                            <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"> #}
-                            {#                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" #}
-                            {#                                     class="img-fluid" alt="Sample image"> #}
-                            {#                            </div> #}
+                            {#                                                        <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"> #}
+                            {#                                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" #}
+                            {#                                                                 class="img-fluid" alt="Sample image"> #}
+                            {#                                                        </div> #}
                         </div>
                     </div>
                 </div>

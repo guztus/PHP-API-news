@@ -36,7 +36,7 @@ class RegisterService
         if (!$result) {
             return null;
         } else {
-            return new RegisterServiceRequest($result['name'],$result['email'],$result['password']);
+            return new RegisterServiceRequest($result['id'], $result['name'], $result['email'], $result['password']);
         }
     }
 }
