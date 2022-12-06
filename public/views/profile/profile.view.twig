@@ -21,15 +21,23 @@
 
         function checkPassword() {
             let decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}$/;
-            if (document.getElementById('password').value.match(decimal)) {
-                changeColor('password', 1, 'green');
+            if (document.getElementById('new_password').value.match(decimal)) {
+                changeColor('new_password', 1, 'green');
                 changeColor('password_requirements', 0, 'gray');
-                return true;
+                // return true;
+                if (document.getElementById('new_password_repeated').value === document.getElementById('new_password').value ) {
+                    changeColor('new_password_repeated', 1, 'green');
+                    changeColor('password_requirements', 0, 'gray');
+                    return true;
+                } else {
+                    changeColor('new_password_repeated', 1, 'red');
+                    return false;
+                }
             } else {
-                changeColor('password', 1, 'red');
+                changeColor('new_password', 1, 'red');
                 changeColor('password_requirements', 0, 'red');
-                return false;
             }
+
         }
 
         function validatePassword() {
@@ -56,9 +64,10 @@
 
                                 <div class="d-flex flex-column">
                                     <div class="d-flex m-2" style="justify-content: center">
-                                        <a style="font-size: 1.2em; font-weight: bold">Name: {{ user.name }}</a>
+                                        <a style="font-size: 1.2em; font-weight: bold">Name: {{ auth.name }}</a>
                                     </div>
-                                    {% if user.email != 'guest' %}
+
+                                    {% if auth.id > 0 %}
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
@@ -76,12 +85,13 @@
                                                         <label class="form-label" for="name">Change
                                                             Name</label>
                                                     </div>
+
                                                 </form>
                                             </div>
                                         </div>
 
                                         <div class="d-flex m-2" style="justify-content: center">
-                                            <a style="font-size: 1.2em; font-weight: bold">Email: {{ user.email }}</a>
+                                            <a style="font-size: 1.2em; font-weight: bold">Email: {{ auth.email }}</a>
                                         </div>
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -100,6 +110,12 @@
                                                         <label class="form-label" for="email">Change
                                                             Email</label>
                                                     </div>
+                                                    {% for error in error.email %}
+                                                        <div class="d-flex"
+                                                             style="justify-content: center; font-size: 0.8em">
+                                                            <a style="color:red">{{ error }}</a>
+                                                        </div>
+                                                    {% endfor %}
                                                 </form>
                                             </div>
                                         </div>
@@ -112,27 +128,55 @@
                                             <div class="form-outline flex-fill mb-0">
 
                                                 <form method="POST">
-                                                    <div class="d-flex">
+                                                    <div class="d-flex flex-row align-items-center mb-4">
                                                         <input type="password" id="password" class="form-control"
                                                                name="password"
                                                                required
+                                                               placeholder="Current Password"
+                                                        />
+                                                    </div>
+
+                                                    <div class="flex flex-row align-items-center mb-4">
+                                                        <input type="password" id="new_password" class="form-control"
+                                                               name="new_password"
+                                                               required
+                                                               placeholder="New Password"
                                                                onkeyup="validatePassword()"
-                                                               />
+                                                        />
+                                                        <div>
+                                                            <a id="password_requirements"
+                                                               style="color: gray; font-size: 0.8em">Use 8 or
+                                                                more characters (mix of letters, numbers & symbols)</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex flex-row align-items-center mb-4">
+                                                        <input type="password" id="new_password_repeated"
+                                                               class="form-control"
+                                                               name="new_password_repeated"
+                                                               required
+                                                               placeholder="New Password Repeated"
+                                                               onkeyup="validatePassword()"
+                                                        />
+                                                    </div>
+                                                    {% for error in error.password %}
+                                                        <div class="d-flex"
+                                                             style="justify-content: center; font-size: 0.8em">
+                                                            <a style="color:red">{{ error }}</a>
+                                                        </div>
+                                                    {% endfor %}
+                                                    {% for alert in alert.password %}
+                                                        <div class="d-flex"
+                                                             style="justify-content: center; font-size: 0.8em">
+                                                            <a style="color:red">{{ alert }}</a>
+                                                        </div>
+                                                    {% endfor %}
+                                                    <div class="d-flex" style="justify-content: center">
                                                         <button class="btn"
                                                                 id="save_password_button"
                                                                 disabled
-
                                                         >save
                                                         </button>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <label class="form-label" for="password">Change
-                                                            Password</label>
-                                                    </div>
-                                                    <div>
-                                                        <a id="password_requirements"
-                                                           style="color: gray; font-size: 0.8em">Use 8 or
-                                                            more characters (mix of letters, numbers & symbols)</a>
                                                     </div>
                                                 </form>
                                             </div>

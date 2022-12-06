@@ -1,21 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
 use App\Template;
-use Twig\Environment;
 
 class ErrorController
 {
     public function index(
-        Environment $twig,
-        int      $errorCode,
-        string      $errorMessage,
-        string      $buttonName = 'Get me to the man page',
-        string      $buttonLink = '/'
+        int    $errorCode,
+        string $errorMessage,
+        string $buttonName = 'Get me to the man page',
+        string $buttonLink = '/'
     ): Template
     {
-        return new Template($twig, "errors/error.view.twig", [
+        return new Template("errors/error.view.twig", [
                 'errorCode' => $errorCode,
                 'errorMessage' => $errorMessage,
                 'buttonName' => $buttonName,

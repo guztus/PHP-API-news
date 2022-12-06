@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\Register;
 
 class RegisterServiceRequest
 {
-    private ?string $id;
+    private ?int $id;
     private string $name;
     private string $email;
     private string $password;
 
-    public function __construct(?string $id, string $name, string $email, string $password)
+    public function __construct(?int $id, string $name, string $email, string $password)
     {
         $this->id = $id;
         $this->name = $name;
@@ -17,7 +17,7 @@ class RegisterServiceRequest
         $this->password = $password;
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }

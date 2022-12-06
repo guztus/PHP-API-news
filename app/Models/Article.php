@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -12,7 +12,7 @@ class Article
     private ?string $source;
 
     public function __construct(
-        ?string  $title,
+        ?string $title,
         ?string $url,
         ?string $description,
         ?string $picture,
@@ -39,7 +39,10 @@ class Article
 
     public function getDescription(): ?string
     {
-        return strip_tags($this->description);
+        if ($this->description) {
+            return strip_tags($this->description);
+        }
+        return $this->description;
     }
 
     public function getPicture(): string

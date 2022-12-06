@@ -1,13 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App;
 
-use Twig\Environment;
-
 class Template
 {
-    public function __construct(Environment $twig, string $path, ?array $variables = [])
+    private string $path;
+    private ?array $parameters;
+
+    public function __construct(string $path, ?array $parameters = [])
     {
-        echo $twig->render($path, $variables);
+        $this->path = $path;
+        $this->parameters = $parameters;
+    }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function getParameters(): ?array
+    {
+        return $this->parameters;
     }
 }

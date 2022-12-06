@@ -1,30 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Services\RegisterService;
+use App\Redirect;
+use App\Services\Register\RegisterService;
 use App\Template;
-use Twig\Environment;
 
 class LoginController
 {
-    public function showForm(Environment $twig)
+    public function showForm(): Template
     {
-        return new Template($twig, "login/login.view.twig");
+        return new Template('login/login.view.twig');
     }
 
-    public function validate(): void
+    public function validate(): Redirect
     {
         $userInfo = (new RegisterService())->checkIfExists($_POST['email']);
+
         if (!$userInfo) {
-            header('Location: /login');
+            $_SESSION['errors']['email'] [] = 'There is no account registered with such address';
+            return new Redirect('/login');
         }
 
         if (password_verify($_POST['password'], $userInfo->getPassword())) {
-            $_SESSION['id'] = $userInfo->getId();
-            header('Location: /');
+            $_SESSION['auth_id'] = $userInfo->getId();
+            return new Redirect('/');
         } else {
-            header('Location: /login');
+            $_SESSION['errors']['password'] [] = 'Incorrect password!';
+            return new Redirect('/login');
         }
     }
 }

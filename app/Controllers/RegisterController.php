@@ -2,50 +2,35 @@
 
 namespace App\Controllers;
 
-use App\Services\RegisterService;
-use App\Services\RegisterServiceRequest;
+use App\Redirect;
+use App\Services\Register\RegisterService;
+use App\Services\Register\RegisterServiceRequest;
 use App\Template;
-use Twig\Environment;
+use App\Validate;
 
 class RegisterController
 {
-    public function showForm(Environment $twig): Template
+    public function showForm(): Template
     {
-        return new Template($twig, 'register/register.view.twig');
+        return new Template('register/register.view.twig');
     }
 
-    public function store(Environment $twig) // store and redirect
+    public function store(): Redirect // store and redirect
     {
-        if ($_POST['password'] != $_POST['password_repeated']) {
-            return (new ErrorController())->index($twig,
-                00,
-                "The passwords you entered didn't match",
-                'Back To Registration Form', '/register');
+        Validate::password($_POST['password'], $_POST['password_repeated']);
+        Validate::email($_POST['email']);
+
+        if (!Validate::passedTests()) {
+            return new Redirect('/register');
         }
 
-        try {
-            (new RegisterService())->execute(new RegisterServiceRequest(
-                null,
-                $_POST['name'],
-                $_POST['email'],
-                password_hash($_POST['password'], PASSWORD_DEFAULT)
-            ));
-        } catch (\Exception $e) {
-            if ($e->getCode() == 1062) {
-                return (new ErrorController())->index(
-                    $twig,
-                    $e->getCode(),
-                    'A user with the email you entered already exists!',
-                    'Go Back',
-                    '/register'
-                );
-            } else {
-                return (new ErrorController())->index(
-                    $twig, $e->getCode(),
-                    $e->getMessage()
-                );
-            }
-        }
-        header('Location: /login');
+        $_SESSION['alerts']['registration_success'] [] = 'Successfully registered!';
+        (new RegisterService)->execute(new RegisterServiceRequest(
+            null,
+            $_POST['name'],
+            $_POST['email'],
+            $_POST['password']
+        ));
+        return new Redirect('/register');
     }
 }

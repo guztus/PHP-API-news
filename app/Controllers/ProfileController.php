@@ -1,32 +1,39 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Services\RegisterService;
+use App\Redirect;
+use App\Services\Profile\ProfileChangeDetailsService;
+use App\Services\Register\RegisterService;
 use App\Template;
-use Twig\Environment;
 
 class ProfileController
 {
-    public function index(Environment $twig)
+    public function index(): Template
     {
-        if (!$_SESSION) {
-            header('Location: /login');
-        } else
-
-            return new Template($twig, 'profile/profile.view.twig');
+        return new Template('profile/profile.view.twig');
     }
 
-    public function submitUserDataChange()
+    public function submitUserDataChange(): Redirect
     {
-        if ($_POST['name']) {
-            (new RegisterService())->changeUserData($_SESSION['id'], 'name', $_POST['name']);
-        } else if ($_POST['email']) {
-            (new RegisterService())->changeUserData($_SESSION['id'], 'email', $_POST['email']);
-        } else if ($_POST['password']) {
-            (new RegisterService())->changeUserData($_SESSION['id'], 'password', password_hash($_POST['password'], PASSWORD_DEFAULT));
+        if (isset($_POST['name'])) {
+            (new RegisterService())->changeUserData($_SESSION['auth_id'], 'name', $_POST['name']);
+
+        } else if (isset($_POST['email'])) {
+            ProfileChangeDetailsService::tryChangeEmail(
+                $_SESSION['auth_id'],
+                $_POST['email']
+            );
+
+        } else if (isset($_POST['password'])) {
+            ProfileChangeDetailsService::tryChangePassword(
+                $_SESSION['auth_id'],
+                $_POST['password'],
+                $_POST['new_password'],
+                $_POST['new_password_repeated']
+            );
         }
 
-        header("Location: /profile");
+        return new Redirect("/profile");
     }
 }

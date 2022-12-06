@@ -1,14 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
 use App\Services\IndexArticleService;
 use App\Template;
-use Twig\Environment;
 
 class ArticleController
 {
-    public function index(Environment $twig): Template
+    public function index(): Template
     {
         $articleFetch = new IndexArticleService();
         if (isset($_GET['search'])) {
@@ -16,9 +15,9 @@ class ArticleController
         } else if (isset($_GET['category'])) {
             $articles = $articleFetch->searchByCategory($_GET['category']);
         } else {
-            return new Template($twig, 'main/main.view.twig', []);
+            return new Template('main/main.view.twig');
         }
 
-        return new Template($twig, 'articles/articles.view.twig', ['GET' => $_GET, 'articles' => $articles, 'articleCount' => $articles->count()]);
+        return new Template('articles/articles.view.twig', ['GET' => $_GET, 'articles' => $articles, 'articleCount' => $articles->count()]);
     }
 }
